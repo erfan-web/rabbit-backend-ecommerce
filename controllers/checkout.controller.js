@@ -68,12 +68,12 @@ exports.verifyCheckout = async (req, res, next) => {
       );
 
       return res.redirect(
-        `{process.env.FRONTEND_URL}/order-confirmation/${order._id}`
+        `${process.env.FRONTEND_URL}/order-confirmation/${order._id}`
       );
     } else {
       order.paymentStatus = "failed";
       await order.save();
-      return res.redirect(`{process.env.FRONTEND_URL}`);
+      return res.redirect(`${process.env.FRONTEND_URL}`);
     }
   } catch (err) {
     next(err);
