@@ -26,7 +26,7 @@ exports.createCheckout = async (req, res, next) => {
     const zibalRes = await axios.post("https://gateway.zibal.ir/v1/request", {
       merchant: process.env.ZIBAL_MERCHANT,
       amount: amount,
-      callbackUrl: `http://localhost:8000/api/checkout/verify`,
+      callbackUrl: `${process.env.BACKEND_URL}checkout/verify`,
       orderId: newOrder._id.toString(),
     });
     if (zibalRes.data.result !== 100)
@@ -68,12 +68,12 @@ exports.verifyCheckout = async (req, res, next) => {
       );
 
       return res.redirect(
-        `http://localhost:5173/order-confirmation/${order._id}`
+        `{process.env.FRONTEND_URL}/order-confirmation/${order._id}`
       );
     } else {
       order.paymentStatus = "failed";
       await order.save();
-      return res.redirect("/checkout/failed");
+      return res.redirect(`{process.env.FRONTEND_URL}`);
     }
   } catch (err) {
     next(err);
