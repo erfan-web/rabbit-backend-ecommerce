@@ -4,7 +4,7 @@ const User = require("../models/User");
 const axios = require("axios");
 const { createError } = require("../utils/createError");
 const  frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
-const  backendUrl = process.env.FRONTEND_URL || `http://localhost:${process.env.PORT}`
+const  backendUrl = process.env.FRONTEND_URL || process.env.LOCAL_BACKEND_URL
 exports.createCheckout = async (req, res, next) => {
   try {
     const { userId, cart, shippingAddress } = req.body;
