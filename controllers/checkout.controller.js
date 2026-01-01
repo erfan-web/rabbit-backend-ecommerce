@@ -3,6 +3,7 @@ const Cart = require("../models/Cart");
 const User = require("../models/User");
 const axios = require("axios");
 const { createError } = require("../utils/createError");
+const  frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 exports.createCheckout = async (req, res, next) => {
   try {
     const { userId, cart, shippingAddress } = req.body;
@@ -68,12 +69,12 @@ exports.verifyCheckout = async (req, res, next) => {
       );
 
       return res.redirect(
-        `${process.env.FRONTEND_URL}/order-confirmation/${order._id}`
+        `${frontendUrl}/order-confirmation/${order._id}`
       );
     } else {
       order.paymentStatus = "failed";
       await order.save();
-      return res.redirect(`${process.env.FRONTEND_URL}`);
+      return res.redirect(`${frontendUrl}`);
     }
   } catch (err) {
     next(err);
