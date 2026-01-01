@@ -4,6 +4,7 @@ const User = require("../models/User");
 const axios = require("axios");
 const { createError } = require("../utils/createError");
 const  frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+const  backendUrl = process.env.FRONTEND_URL || `http://localhost:${process.env.PORT}`
 exports.createCheckout = async (req, res, next) => {
   try {
     const { userId, cart, shippingAddress } = req.body;
@@ -27,7 +28,7 @@ exports.createCheckout = async (req, res, next) => {
     const zibalRes = await axios.post("https://gateway.zibal.ir/v1/request", {
       merchant: process.env.ZIBAL_MERCHANT,
       amount: amount,
-      callbackUrl: `${process.env.BACKEND_URL}checkout/verify`,
+      callbackUrl: `${backendUrl}checkout/verify`,
       orderId: newOrder._id.toString(),
     });
     if (zibalRes.data.result !== 100)
